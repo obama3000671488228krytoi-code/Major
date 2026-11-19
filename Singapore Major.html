@@ -1,0 +1,596 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Singapore Major</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Unbounded:wght@500;700;800&display=swap">
+<style>
+/* Layout: asymmetric hero (text left, countdown panel right), then stacked sections on a 1100px grid. Dark first, light via toggle. */
+:root {
+  --bg: #0a1018;
+  --surface: #121b27;
+  --surface-2: #19263a;
+  --line: #243349;
+  --fg: #e8eef7;
+  --muted: #94a3b8;
+  --accent: #ef4a5b;
+  --accent-ink: #1a0508;
+  --teal: #3fd0c9;
+  --good: #46c98a;
+  --warn: #f2b84b;
+  --font-display: "Unbounded", "Trebuchet MS", system-ui, sans-serif;
+  --font-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: dark;
+}
+:root[data-theme="light"] {
+  --bg: #f3f6fa;
+  --surface: #ffffff;
+  --surface-2: #eaf0f7;
+  --line: #d3dce8;
+  --fg: #0e1a2b;
+  --muted: #52627a;
+  --accent: #d62839;
+  --accent-ink: #ffffff;
+  --teal: #0b8c86;
+  --good: #1a8a56;
+  --warn: #9a6a00;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0;
+  transition: background .25s, color .25s;
+}
+.wrap { max-width: 1100px; margin: 0 auto; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.15; margin: 0; text-wrap: balance; }
+h2 { font-size: clamp(1.5rem, 3.4vw, 2.1rem); }
+h3 { font-size: 1.05rem; }
+p { margin: 0; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; border-radius: 6px; }
+.eyebrow { font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--teal); font-weight: 700; }
+.muted { color: var(--muted); }
+section { padding-block: 72px; }
+.section-head { display: flex; flex-direction: column; gap: 10px; max-width: 620px; margin-bottom: 32px; }
+
+/* header */
+.top {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+  margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px)));
+  padding-inline: max(16px, env(safe-area-inset-left, 0px));
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg); }
+.top-in { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 16px; padding-block: 12px; flex-wrap: wrap; }
+.logo { font-family: var(--font-display); font-weight: 800; font-size: 1rem; text-decoration: none; display: flex; align-items: center; gap: 10px; letter-spacing: .02em; }
+.logo i { width: 14px; height: 14px; background: var(--accent); display: inline-block; transform: rotate(45deg); border-radius: 3px; }
+nav { margin-left: auto; display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
+nav a { text-decoration: none; padding: 8px 12px; border-radius: 8px; font-size: .9rem; font-weight: 600; color: var(--muted); }
+nav a:hover { color: var(--fg); background: var(--surface); }
+.theme-btn {
+  display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+  background: var(--surface); color: var(--fg); border: 1px solid var(--line);
+  padding: 8px 12px; border-radius: 999px; font: 600 .85rem var(--font-body);
+}
+.theme-btn:hover { border-color: var(--teal); }
+.theme-btn svg { width: 16px; height: 16px; }
+.theme-btn .sun { display: none; }
+:root[data-theme="light"] .theme-btn .sun { display: block; }
+:root[data-theme="light"] .theme-btn .moon { display: none; }
+
+/* buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;
+  border: 0; border-radius: 10px; padding: 13px 22px; font: 700 .95rem var(--font-body); text-decoration: none;
+  background: var(--accent); color: var(--accent-ink);
+  transition: transform .15s, filter .15s;
+}
+.btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.btn.ghost { background: transparent; color: var(--fg); border: 1px solid var(--line); }
+.btn.ghost:hover { border-color: var(--teal); }
+
+/* hero */
+.hero { padding-block: 64px 48px; display: grid; grid-template-columns: 1.15fr .85fr; gap: 40px; align-items: center; }
+.hero-text { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
+.hero h1 { font-size: clamp(2.4rem, 7vw, 4.6rem); font-weight: 800; letter-spacing: -.01em; }
+.hero h1 span { color: var(--accent); }
+.hero .lead { font-size: 1.1rem; color: var(--muted); max-width: 520px; }
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 24px; display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.count { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.count div { background: var(--surface-2); border-radius: 12px; padding: 14px 6px; text-align: center; }
+.count b { display: block; font-family: var(--font-display); font-size: clamp(1.3rem, 4vw, 1.9rem); font-variant-numeric: tabular-nums; }
+.count small { color: var(--muted); font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; }
+.facts { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; font-size: .92rem; }
+.facts li { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px dashed var(--line); padding-bottom: 8px; }
+.facts li span:first-child { color: var(--muted); }
+.facts li span:last-child { font-weight: 700; text-align: right; }
+.skyline { width: 100%; height: auto; display: block; margin-top: 8px; }
+.skyline rect, .skyline path { fill: var(--surface-2); }
+.skyline .hl { fill: var(--accent); }
+.skyline .wave { fill: none; stroke: var(--teal); stroke-width: 2; }
+
+/* about */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.card .big { font-family: var(--font-display); font-size: 1.9rem; font-weight: 800; color: var(--teal); }
+.card p { color: var(--muted); font-size: .95rem; }
+
+/* schedule */
+.tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+.tab { cursor: pointer; background: var(--surface); color: var(--muted); border: 1px solid var(--line); padding: 9px 16px; border-radius: 999px; font: 600 .88rem var(--font-body); }
+.tab[aria-selected="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.matches { display: grid; gap: 10px; }
+.match { display: grid; grid-template-columns: 130px 1fr auto; gap: 16px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 18px; }
+.match .when { font-size: .85rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.match .when b { display: block; color: var(--fg); font-size: .95rem; }
+.match .teams { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-weight: 700; min-width: 0; }
+.match .teams em { font-style: normal; color: var(--accent); font-family: var(--font-display); font-size: .8rem; }
+.pill { font-size: .72rem; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: var(--surface-2); color: var(--teal); white-space: nowrap; }
+.note { font-size: .82rem; color: var(--muted); margin-top: 14px; }
+
+/* forms */
+.split { display: grid; grid-template-columns: .8fr 1.2fr; gap: 40px; align-items: start; }
+.split > * { min-width: 0; }
+.form { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 26px; display: grid; gap: 16px; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+label, .lbl { font-size: .85rem; font-weight: 700; }
+input, select, textarea {
+  width: 100%; background: var(--bg); color: var(--fg); border: 1px solid var(--line); border-radius: 10px;
+  padding: 12px 14px; font: 500 .95rem var(--font-body);
+}
+textarea { resize: vertical; min-height: 110px; }
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 3px color-mix(in srgb, var(--teal) 30%, transparent); }
+.field.err input, .field.err select, .field.err textarea { border-color: var(--accent); }
+.msg { color: var(--accent); font-size: .8rem; min-height: 1em; }
+.check { display: flex; gap: 10px; align-items: flex-start; font-weight: 500; font-size: .88rem; color: var(--muted); }
+.check input { width: 18px; height: 18px; margin-top: 3px; flex: none; accent-color: var(--accent); }
+.options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.opt { position: relative; }
+.opt input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; cursor: pointer; }
+.opt span { display: block; text-align: center; padding: 11px 6px; border: 1px solid var(--line); border-radius: 10px; font-size: .88rem; font-weight: 600; background: var(--bg); }
+.opt input:checked + span { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, var(--bg)); }
+.opt input:focus-visible + span { outline: 3px solid var(--teal); outline-offset: 2px; }
+.ticket { text-align: center; display: grid; gap: 12px; padding: 12px 4px; }
+.ticket .code { font-family: var(--font-display); font-size: 1.7rem; font-weight: 800; color: var(--teal); letter-spacing: .06em; }
+.ticket .ok { width: 54px; height: 54px; border-radius: 50%; background: var(--good); color: #05140c; display: grid; place-items: center; margin: 0 auto; }
+.side { display: flex; flex-direction: column; gap: 14px; }
+.steps { list-style: none; padding: 0; margin: 8px 0 0; display: grid; gap: 14px; counter-reset: s; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 34px 1fr; gap: 12px; color: var(--muted); }
+.steps li::before { content: counter(s); width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--surface-2); color: var(--fg); font-weight: 800; font-size: .9rem; }
+.steps b { color: var(--fg); display: block; }
+
+/* reviews */
+.summary { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-bottom: 18px; }
+.summary .avg { font-family: var(--font-display); font-size: 2.6rem; font-weight: 800; }
+.stars { display: inline-flex; gap: 3px; }
+.stars svg { width: 18px; height: 18px; fill: var(--line); }
+.stars svg.on { fill: var(--warn); }
+.rate { display: inline-flex; gap: 6px; }
+.rate button { background: none; border: 0; cursor: pointer; padding: 4px; border-radius: 8px; }
+.rate svg { width: 30px; height: 30px; fill: var(--line); display: block; transition: fill .12s; }
+.rate button.on svg { fill: var(--warn); }
+.reviews { display: grid; gap: 12px; }
+.review { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; display: grid; gap: 8px; }
+.review header { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--surface-2); display: grid; place-items: center; font-weight: 800; color: var(--teal); }
+.review .who { font-weight: 700; }
+.review time { margin-left: auto; font-size: .8rem; color: var(--muted); }
+.review p { color: var(--muted); overflow-wrap: anywhere; }
+.sortbar { display: flex; gap: 10px; align-items: center; margin-bottom: 14px; }
+.sortbar select { width: auto; padding: 8px 12px; }
+
+footer { border-top: 1px solid var(--line); padding-block: 32px; color: var(--muted); font-size: .88rem; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 20px); background: var(--fg); color: var(--bg); padding: 12px 20px; border-radius: 10px; font-weight: 700; font-size: .9rem; opacity: 0; pointer-events: none; transition: .25s; z-index: 40; }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+@media (max-width: 860px) {
+  .hero, .split { grid-template-columns: 1fr; }
+  .match { grid-template-columns: 1fr; gap: 8px; }
+  nav { margin-left: 0; width: 100%; }
+}
+@media (max-width: 520px) {
+  .row, .options { grid-template-columns: 1fr; }
+  section { padding-block: 52px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+</style>
+
+<div class="top">
+  <div class="top-in">
+    <a class="logo" href="#top"><i></i>SINGAPORE MAJOR</a>
+    <nav aria-label="Навігація">
+      <a href="#about">Про турнір</a>
+      <a href="#schedule">Розклад</a>
+      <a href="#register">Реєстрація</a>
+      <a href="#reviews">Відгуки</a>
+      <button class="theme-btn" id="themeBtn" type="button" aria-label="Перемкнути тему">
+        <svg class="moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="sun" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span id="themeLabel">Темна</span>
+      </button>
+    </nav>
+  </div>
+</div>
+
+<main class="wrap" id="top">
+  <div class="hero">
+    <div class="hero-text">
+      <span class="eyebrow">Кіберспортивний турнір · Сінгапур</span>
+      <h1>Singapore <span>Major</span></h1>
+      <p class="lead">Шістнадцять команд, п'ять днів матчів і одна сцена біля Marina Bay. Зареєструйтеся як гравець, команда чи глядач і залиште відгук після турніру.</p>
+      <div class="hero-actions">
+        <a class="btn" href="#register">Зареєструватися</a>
+        <a class="btn ghost" href="#schedule">Дивитися розклад</a>
+      </div>
+    </div>
+    <aside class="panel" aria-label="Відлік до початку">
+      <span class="eyebrow">До старту залишилось</span>
+      <div class="count" id="count" aria-live="off">
+        <div><b id="cd-d">--</b><small>днів</small></div>
+        <div><b id="cd-h">--</b><small>годин</small></div>
+        <div><b id="cd-m">--</b><small>хвилин</small></div>
+        <div><b id="cd-s">--</b><small>секунд</small></div>
+      </div>
+      <ul class="facts">
+        <li><span>Дати</span><span>12–16 березня 2027</span></li>
+        <li><span>Місце</span><span>Singapore Indoor Stadium</span></li>
+        <li><span>Час</span><span>SGT (UTC+8)</span></li>
+        <li><span>Формат</span><span>Групи + плей-оф</span></li>
+      </ul>
+      <svg class="skyline" viewBox="0 0 400 90" aria-hidden="true">
+        <rect x="10" y="50" width="22" height="40" rx="2"/><rect x="38" y="30" width="18" height="60" rx="2"/>
+        <rect x="62" y="44" width="26" height="46" rx="2"/><rect class="hl" x="100" y="22" width="14" height="68" rx="2"/>
+        <rect x="120" y="22" width="14" height="68" rx="2"/><rect x="140" y="22" width="14" height="68" rx="2"/>
+        <rect x="96" y="14" width="62" height="9" rx="4"/>
+        <path d="M176 90V54q22-30 44 0v36z"/><rect x="232" y="38" width="20" height="52" rx="2"/>
+        <rect x="258" y="56" width="30" height="34" rx="2"/><rect x="294" y="28" width="16" height="62" rx="2"/>
+        <rect x="316" y="46" width="24" height="44" rx="2"/><rect x="346" y="60" width="40" height="30" rx="2"/>
+        <path class="wave" d="M0 86q25-8 50 0t50 0 50 0 50 0 50 0 50 0 50 0 50 0"/>
+      </svg>
+    </aside>
+  </div>
+
+  <section id="about">
+    <div class="section-head">
+      <span class="eyebrow">Про турнір</span>
+      <h2>Що чекає на Singapore Major</h2>
+      <p class="muted">Офлайн-фінал на арені, трансляції для глядачів і відкрита зона для фанатів. Цифри нижче є прикладом для демонстрації сайту.</p>
+    </div>
+    <div class="cards">
+      <div class="card"><span class="big">16</span><h3>Команд</h3><p>Вісім з кваліфікацій і вісім за запрошенням.</p></div>
+      <div class="card"><span class="big">5 днів</span><h3>Матчів</h3><p>Три дні групи, два дні плей-оф, фінал в неділю.</p></div>
+      <div class="card"><span class="big">12 000</span><h3>Місць на арені</h3><p>Глядацькі квитки двох категорій і VIP-зона.</p></div>
+      <div class="card"><span class="big">24/7</span><h3>Підтримка гостей</h3><p>Інформаційний пункт біля входу та чат на сайті.</p></div>
+    </div>
+  </section>
+
+  <section id="schedule">
+    <div class="section-head">
+      <span class="eyebrow">Розклад</span>
+      <h2>Матчі за стадіями</h2>
+    </div>
+    <div class="tabs" role="tablist" id="tabs"></div>
+    <div class="matches" id="matches"></div>
+    <p class="note">Приклад розкладу. Назви команд вигадані. Час вказано за Сінгапуром, нижче підказка для вашого часового поясу.</p>
+  </section>
+
+  <section id="register">
+    <div class="split">
+      <div class="side">
+        <span class="eyebrow">Реєстрація</span>
+        <h2>Приєднуйтесь до Singapore Major</h2>
+        <p class="muted">Заповніть форму, і ми видамо номер учасника. Реєстрація безкоштовна для гравців і команд, глядачі обирають тип квитка.</p>
+        <ol class="steps">
+          <li><div><b>Заповніть анкету</b>Контакти та роль на турнірі.</div></li>
+          <li><div><b>Отримайте номер</b>Він з'явиться одразу після відправки.</div></li>
+          <li><div><b>Підтвердіть участь</b>Покажіть номер на вході або в онлайн-лобі.</div></li>
+        </ol>
+      </div>
+      <div>
+        <form class="form" id="regForm" novalidate>
+          <div class="row">
+            <div class="field"><label for="r-name">Ім'я та прізвище</label><input id="r-name" name="name" autocomplete="name" placeholder="Олена Коваль"><span class="msg"></span></div>
+            <div class="field"><label for="r-nick">Нікнейм</label><input id="r-nick" name="nick" placeholder="LionCity_77"><span class="msg"></span></div>
+          </div>
+          <div class="row">
+            <div class="field"><label for="r-email">Електронна пошта</label><input id="r-email" name="email" type="email" autocomplete="email" placeholder="you@example.com"><span class="msg"></span></div>
+            <div class="field"><label for="r-country">Країна</label>
+              <select id="r-country" name="country">
+                <option value="">Оберіть країну</option>
+                <option>Україна</option><option>Сінгапур</option><option>Польща</option><option>Німеччина</option><option>Швеція</option><option>США</option><option>Інша</option>
+              </select><span class="msg"></span></div>
+          </div>
+          <div class="field">
+            <span class="lbl">Роль</span>
+            <div class="options" role="radiogroup" aria-label="Роль">
+              <label class="opt"><input type="radio" name="role" value="Гравець" checked><span>Гравець</span></label>
+              <label class="opt"><input type="radio" name="role" value="Команда"><span>Команда</span></label>
+              <label class="opt"><input type="radio" name="role" value="Глядач"><span>Глядач</span></label>
+            </div>
+          </div>
+          <div class="field" id="ticketField" hidden>
+            <label for="r-ticket">Тип квитка</label>
+            <select id="r-ticket" name="ticket">
+              <option>Стандарт</option><option>Партер</option><option>VIP</option>
+            </select>
+          </div>
+          <label class="check"><input type="checkbox" id="r-agree"><span>Погоджуюсь з правилами турніру та обробкою даних для реєстрації.</span></label>
+          <span class="msg" id="agreeMsg"></span>
+          <button class="btn" type="submit">Отримати номер учасника</button>
+        </form>
+        <div class="form ticket" id="ticket" hidden>
+          <div class="ok"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></div>
+          <h3 id="tName">Реєстрацію завершено</h3>
+          <p class="muted" id="tInfo"></p>
+          <div class="code" id="tCode">SGM-0000</div>
+          <button class="btn ghost" type="button" id="copyCode">Скопіювати номер</button>
+          <button class="btn ghost" type="button" id="again">Зареєструвати ще одну особу</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="reviews">
+    <div class="section-head">
+      <span class="eyebrow">Відгуки</span>
+      <h2>Що кажуть учасники</h2>
+    </div>
+    <div class="split">
+      <form class="form" id="revForm" novalidate>
+        <h3>Залишити відгук</h3>
+        <div class="field">
+          <span class="lbl" id="rateLbl">Ваша оцінка</span>
+          <div class="rate" id="rate" role="radiogroup" aria-labelledby="rateLbl"></div>
+          <span class="msg" id="rateMsg"></span>
+        </div>
+        <div class="field"><label for="v-name">Ім'я</label><input id="v-name" placeholder="Як вас підписати" maxlength="40"><span class="msg"></span></div>
+        <div class="field"><label for="v-text">Відгук</label><textarea id="v-text" placeholder="Що сподобалось, що можна покращити" maxlength="600"></textarea><span class="msg"></span></div>
+        <button class="btn" type="submit">Надіслати відгук</button>
+      </form>
+      <div>
+        <div class="summary">
+          <span class="avg" id="avg">0.0</span>
+          <div><div class="stars" id="avgStars"></div><span class="muted" id="avgCount"></span></div>
+        </div>
+        <div class="sortbar">
+          <label for="sort" class="muted">Сортувати</label>
+          <select id="sort"><option value="new">Спочатку нові</option><option value="high">Найвища оцінка</option><option value="low">Найнижча оцінка</option></select>
+        </div>
+        <div class="reviews" id="reviewList"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Singapore Major · демонстраційний сайт</span>
+    <span>Дані форм зберігаються лише у вашому браузері.</span>
+  </footer>
+</main>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function () {
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var store = {
+    get: function (k, d) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+    set: function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  };
+  var mem = { regs: store.get('sgm_regs', []), revs: store.get('sgm_revs', []) };
+
+  /* ---------- theme ---------- */
+  var root = document.documentElement;
+  function setTheme(t) {
+    root.setAttribute('data-theme', t);
+    $('#themeLabel').textContent = t === 'light' ? 'Світла' : 'Темна';
+    $('#themeBtn').setAttribute('aria-pressed', t === 'light');
+    store.set('sgm_theme', t);
+  }
+  setTheme(store.get('sgm_theme', 'dark') === 'light' ? 'light' : 'dark');
+  $('#themeBtn').addEventListener('click', function () {
+    setTheme(root.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
+  });
+
+  /* ---------- toast ---------- */
+  var tt;
+  function toast(t) {
+    var el = $('#toast'); el.textContent = t; el.classList.add('show');
+    clearTimeout(tt); tt = setTimeout(function () { el.classList.remove('show'); }, 2600);
+  }
+
+  /* ---------- countdown ---------- */
+  var target = new Date('2027-03-12T10:00:00+08:00').getTime();
+  function pad(n) { return String(n).padStart(2, '0'); }
+  function tick() {
+    var d = Math.max(0, target - Date.now());
+    var s = Math.floor(d / 1000);
+    $('#cd-d').textContent = Math.floor(s / 86400);
+    $('#cd-h').textContent = pad(Math.floor(s % 86400 / 3600));
+    $('#cd-m').textContent = pad(Math.floor(s % 3600 / 60));
+    $('#cd-s').textContent = pad(s % 60);
+  }
+  tick(); setInterval(tick, 1000);
+
+  /* ---------- schedule ---------- */
+  var matches = [
+    { st: 'Групи', day: '12 бер', t: '10:00', a: 'Merlion Five', b: 'Kyiv Storm', c: 'Група A' },
+    { st: 'Групи', day: '12 бер', t: '13:00', a: 'Orchid Esports', b: 'Baltic Wolves', c: 'Група A' },
+    { st: 'Групи', day: '13 бер', t: '10:00', a: 'Lion City', b: 'Dnipro Flame', c: 'Група B' },
+    { st: 'Групи', day: '14 бер', t: '15:00', a: 'Harbour Kings', b: 'Nordic Peak', c: 'Група B' },
+    { st: 'Плей-оф', day: '15 бер', t: '11:00', a: 'Переможець A', b: 'Друге місце B', c: 'Чвертьфінал' },
+    { st: 'Плей-оф', day: '15 бер', t: '15:00', a: 'Переможець B', b: 'Друге місце A', c: 'Чвертьфінал' },
+    { st: 'Фінал', day: '16 бер', t: '14:00', a: 'Фіналіст 1', b: 'Фіналіст 2', c: 'Гранд-фінал' }
+  ];
+  var stages = ['Усі', 'Групи', 'Плей-оф', 'Фінал'];
+  var cur = 'Усі';
+  function renderTabs() {
+    var box = $('#tabs'); box.innerHTML = '';
+    stages.forEach(function (s) {
+      var b = document.createElement('button');
+      b.className = 'tab'; b.type = 'button'; b.setAttribute('role', 'tab');
+      b.setAttribute('aria-selected', s === cur); b.textContent = s;
+      b.addEventListener('click', function () { cur = s; renderTabs(); renderMatches(); });
+      box.appendChild(b);
+    });
+  }
+  function localTime(day, t) {
+    var m = { 'бер': 2 }, p = day.split(' '), h = t.split(':');
+    var dt = new Date(Date.UTC(2027, m[p[1]], +p[0], +h[0] - 8, +h[1]));
+    return dt.toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' });
+  }
+  function renderMatches() {
+    var box = $('#matches'); box.innerHTML = '';
+    matches.filter(function (m) { return cur === 'Усі' || m.st === cur; }).forEach(function (m) {
+      var el = document.createElement('div'); el.className = 'match';
+      var w = document.createElement('div'); w.className = 'when';
+      var b = document.createElement('b'); b.textContent = m.day + ', ' + m.t + ' SGT';
+      w.appendChild(b); w.appendChild(document.createTextNode('У вас: ' + localTime(m.day, m.t)));
+      var tm = document.createElement('div'); tm.className = 'teams';
+      var a = document.createElement('span'); a.textContent = m.a;
+      var v = document.createElement('em'); v.textContent = 'VS';
+      var c = document.createElement('span'); c.textContent = m.b;
+      tm.appendChild(a); tm.appendChild(v); tm.appendChild(c);
+      var p = document.createElement('span'); p.className = 'pill'; p.textContent = m.c;
+      el.appendChild(w); el.appendChild(tm); el.appendChild(p);
+      box.appendChild(el);
+    });
+  }
+  renderTabs(); renderMatches();
+
+  /* ---------- registration ---------- */
+  var form = $('#regForm');
+  function fieldErr(input, text) {
+    var f = input.closest('.field'); if (!f) return;
+    f.classList.toggle('err', !!text);
+    var m = f.querySelector('.msg'); if (m) m.textContent = text || '';
+  }
+  form.addEventListener('change', function (e) {
+    if (e.target.name === 'role') $('#ticketField').hidden = e.target.value !== 'Глядач';
+  });
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var ok = true;
+    var name = $('#r-name'), nick = $('#r-nick'), email = $('#r-email'), country = $('#r-country');
+    var checks = [
+      [name, name.value.trim().length >= 2, 'Введіть ім\'я'],
+      [nick, /^[\w.\-]{3,20}$/.test(nick.value.trim()), 'Від 3 до 20 символів: літери, цифри, _ . -'],
+      [email, /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim()), 'Введіть коректну пошту'],
+      [country, !!country.value, 'Оберіть країну']
+    ];
+    checks.forEach(function (c) { fieldErr(c[0], c[1] ? '' : c[2]); if (!c[1]) ok = false; });
+    var agree = $('#r-agree');
+    $('#agreeMsg').textContent = agree.checked ? '' : 'Потрібна ваша згода';
+    if (!agree.checked) ok = false;
+    if (!ok) { var f = form.querySelector('.err input, .err select'); if (f) f.focus(); return; }
+
+    var role = form.elements.role.value;
+    var dup = mem.regs.some(function (r) { return r.email === email.value.trim().toLowerCase(); });
+    if (dup) { fieldErr(email, 'Ця пошта вже зареєстрована'); email.focus(); return; }
+    var code = 'SGM-' + String(1000 + mem.regs.length * 7 + Math.floor(Math.random() * 7)).padStart(4, '0');
+    mem.regs.push({ email: email.value.trim().toLowerCase(), code: code, role: role });
+    store.set('sgm_regs', mem.regs);
+    $('#tName').textContent = name.value.trim() + ', ви в списку';
+    $('#tInfo').textContent = role + ' · ' + nick.value.trim() + ' · ' + country.value + (role === 'Глядач' ? ' · квиток: ' + $('#r-ticket').value : '');
+    $('#tCode').textContent = code;
+    form.hidden = true; $('#ticket').hidden = false;
+    $('#ticket').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+  $('#again').addEventListener('click', function () {
+    form.reset(); $('#ticketField').hidden = true;
+    form.querySelectorAll('.err').forEach(function (f) { f.classList.remove('err'); });
+    form.hidden = false; $('#ticket').hidden = true;
+  });
+  $('#copyCode').addEventListener('click', function () {
+    var t = $('#tCode').textContent;
+    try {
+      navigator.clipboard.writeText(t).then(function () { toast('Номер скопійовано'); }, function () { sel(); });
+    } catch (e) { sel(); }
+    function sel() {
+      var r = document.createRange(); r.selectNodeContents($('#tCode'));
+      var s = getSelection(); s.removeAllRanges(); s.addRange(r); toast('Виділено, натисніть Ctrl+C');
+    }
+  });
+  form.addEventListener('input', function (e) { if (e.target.closest('.field')) fieldErr(e.target, ''); });
+
+  /* ---------- reviews ---------- */
+  var star = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.6l1.3-6.6L2.5 9.4l6.6-.8z"/></svg>';
+  var seed = [
+    { n: 'Марко П.', r: 5, t: 'Дуже чітка організація: матчі йшли за графіком, а зона для фанатів була просторою.', d: '2026-10-02', ex: true },
+    { n: 'Lin Wei', r: 4, t: 'Гарний звук і картинка на арені. Черга на вхід могла бути коротшою.', d: '2026-09-21', ex: true },
+    { n: 'Оксана', r: 5, t: 'Реєстрація заняла дві хвилини, номер прийшов одразу. Зручно.', d: '2026-09-11', ex: true }
+  ];
+  var rating = 0;
+  var rateBox = $('#rate');
+  for (var i = 1; i <= 5; i++) (function (v) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', 'false');
+    b.setAttribute('aria-label', v + ' з 5'); b.innerHTML = star;
+    b.addEventListener('click', function () { rating = v; paintRate(); $('#rateMsg').textContent = ''; });
+    rateBox.appendChild(b);
+  })(i);
+  function paintRate() {
+    rateBox.querySelectorAll('button').forEach(function (b, i) {
+      b.classList.toggle('on', i < rating); b.setAttribute('aria-checked', i + 1 === rating);
+    });
+  }
+  function starsEl(n) {
+    var s = document.createElement('span'); s.className = 'stars'; s.setAttribute('aria-label', 'Оцінка ' + n + ' з 5');
+    for (var i = 1; i <= 5; i++) { var w = document.createElement('span'); w.innerHTML = star; var svg = w.firstChild; if (i <= Math.round(n)) svg.setAttribute('class', 'on'); s.appendChild(svg); }
+    return s;
+  }
+  function renderReviews() {
+    var all = mem.revs.concat(seed);
+    var mode = $('#sort').value;
+    all.sort(function (a, b) {
+      if (mode === 'high') return b.r - a.r;
+      if (mode === 'low') return a.r - b.r;
+      return b.d.localeCompare(a.d);
+    });
+    var sum = all.reduce(function (s, r) { return s + r.r; }, 0);
+    var avg = all.length ? sum / all.length : 0;
+    $('#avg').textContent = avg.toFixed(1);
+    var as = $('#avgStars'); as.innerHTML = '';
+    as.appendChild(starsEl(avg));
+    $('#avgCount').textContent = all.length + ' ' + (all.length % 10 === 1 && all.length !== 11 ? 'відгук' : (all.length % 10 >= 2 && all.length % 10 <= 4 && (all.length < 12 || all.length > 14) ? 'відгуки' : 'відгуків'));
+    var box = $('#reviewList'); box.innerHTML = '';
+    all.forEach(function (r) {
+      var el = document.createElement('article'); el.className = 'review';
+      var h = document.createElement('header');
+      var av = document.createElement('span'); av.className = 'avatar'; av.textContent = r.n.trim().charAt(0).toUpperCase();
+      var who = document.createElement('span'); who.className = 'who'; who.textContent = r.n;
+      h.appendChild(av); h.appendChild(who); h.appendChild(starsEl(r.r));
+      if (r.ex) { var p = document.createElement('span'); p.className = 'pill'; p.textContent = 'Приклад'; h.appendChild(p); }
+      var tm = document.createElement('time'); tm.textContent = new Date(r.d + 'T12:00:00').toLocaleDateString('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' });
+      h.appendChild(tm);
+      var p2 = document.createElement('p'); p2.textContent = r.t;
+      el.appendChild(h); el.appendChild(p2); box.appendChild(el);
+    });
+  }
+  $('#sort').addEventListener('change', renderReviews);
+  $('#revForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var n = $('#v-name'), t = $('#v-text'), ok = true;
+    if (!rating) { $('#rateMsg').textContent = 'Оберіть оцінку'; ok = false; }
+    fieldErr(n, n.value.trim().length >= 2 ? '' : 'Введіть ім\'я'); if (n.value.trim().length < 2) ok = false;
+    fieldErr(t, t.value.trim().length >= 10 ? '' : 'Напишіть хоча б 10 символів'); if (t.value.trim().length < 10) ok = false;
+    if (!ok) return;
+    mem.revs.push({ n: n.value.trim(), r: rating, t: t.value.trim(), d: new Date().toISOString().slice(0, 10) });
+    store.set('sgm_revs', mem.revs);
+    rating = 0; paintRate(); n.value = ''; t.value = '';
+    renderReviews(); toast('Дякуємо за відгук');
+  });
+  $('#revForm').addEventListener('input', function (e) { if (e.target.closest('.field')) fieldErr(e.target, ''); });
+  renderReviews();
+})();
+</script>
+
+</body></html>
